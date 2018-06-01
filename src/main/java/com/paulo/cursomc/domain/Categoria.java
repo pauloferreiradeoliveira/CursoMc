@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-// Para poder ser trasformado em BITS
+// Serializable - Para poder ser trasformado em BITS
 @Entity
 public class Categoria implements Serializable {
 	
