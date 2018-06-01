@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>cursomc</name>
-	<description>Esduto de cassa Java para Cursi de Modelagem Conceitual com UML</description>
+	<description>Estudo de caso Java para Curso de Modelagem Conceitual com UML</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
