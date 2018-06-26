@@ -90,7 +90,7 @@ public class Cliente implements Serializable {
 	public TipoCliente getTipoCliente() {
 		try {
 			return TipoCliente.toEnum(tipoCliente);
-		} catch (IllegalAccessException e) {
+		} catch (IllegalArgumentException e) {
 			return null;
 		}
 	}

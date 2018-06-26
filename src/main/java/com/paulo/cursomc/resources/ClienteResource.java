@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.paulo.cursomc.domain.Cliente;
 import com.paulo.cursomc.dto.ClienteDTO;
+import com.paulo.cursomc.dto.ClienteNewDTO;
 import com.paulo.cursomc.services.ClienteService;
 
 @RestController
@@ -36,10 +37,14 @@ public class ClienteResource {
 
 	}
 	
+	/*
+	 * Cadastrar Dados na tabela Cliente (INSERT)
+	 * Recebe um JSON com os dados 
+	 * */
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDTO){
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO){
 		Cliente obj = service.fromDTO(objDTO);
-		//obj = service.insert(obj);
+		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 					.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -59,6 +64,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	// Seleciona uma GET
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 	
@@ -68,7 +74,7 @@ public class ClienteResource {
 
 	}
 	
-	
+	// Paginação 
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> findPage(
 			@RequestParam(value="page", defaultValue = "0") Integer page,

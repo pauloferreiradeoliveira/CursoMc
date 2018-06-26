@@ -30,7 +30,7 @@ public enum EstadoPagamento {
 		this.descricao = descricao;
 	}
 	
-	public static EstadoPagamento toEmun(Integer id) throws IllegalAccessException {
+	public static EstadoPagamento toEmun(Integer id)  {
 		if(id == null) {
 			return null;
 		}
@@ -40,7 +40,7 @@ public enum EstadoPagamento {
 			}
 		}
 		
-		throw new IllegalAccessError("Id inválido" + id);		
+		throw new IllegalArgumentException("Id inválido: " + id);	
 	}
 	
 	

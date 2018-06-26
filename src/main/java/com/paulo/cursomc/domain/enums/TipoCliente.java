@@ -20,7 +20,7 @@ public enum TipoCliente {
 		return descricao;
 	}
 	
-	public static TipoCliente toEnum(Integer cod) throws IllegalAccessException {
+	public static TipoCliente toEnum(Integer cod)  {
 		if(cod == null) {
 			return null;
 		}
@@ -29,7 +29,8 @@ public enum TipoCliente {
 				return x;
 			}
 		}
-		throw new IllegalAccessException("Id Inválidado:" + cod);
+		throw new IllegalArgumentException("Id inválido: " + cod);
+		
 		
 	}
 

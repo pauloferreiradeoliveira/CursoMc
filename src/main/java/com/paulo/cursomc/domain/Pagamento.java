@@ -36,7 +36,7 @@ public abstract class Pagamento implements Serializable{
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();
+		this.estado = (estado==null) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -51,7 +51,7 @@ public abstract class Pagamento implements Serializable{
 	public EstadoPagamento getEstado() {
 		try {
 			return EstadoPagamento.toEmun(estado);
-		}catch (IllegalAccessException e) {
+		}catch (IllegalArgumentException e) {
 			return null;
 		}
 	}
