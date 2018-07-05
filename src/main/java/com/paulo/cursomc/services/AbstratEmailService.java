@@ -20,7 +20,6 @@ public abstract class AbstratEmailService implements EmailService{
 	@Autowired
 	private TemplateEngine templateEngine;
 	
-	
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
@@ -45,7 +44,7 @@ public abstract class AbstratEmailService implements EmailService{
 			
 	}
 
-	private MimeMessage prepareMineMailMessageFromPedido(Pedido obj) throws MessagingException {
+	protected MimeMessage prepareMineMailMessageFromPedido(Pedido obj) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage,true);
 		mmh.setTo(obj.getCliente().getEmail());
