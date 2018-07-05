@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] PUBLIC_MATCHES_GET = {
 			"/produtos/**",
-			"/categorias/**"
+			"/categorias/**",
+			"/clientes/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHES = {
@@ -56,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 	
+	//pra poder fazer AUTO INJEÇÂO
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
