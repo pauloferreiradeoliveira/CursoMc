@@ -25,7 +25,6 @@ public enum Perfil {
 			return null;
 		}
 		for (Perfil perfil : Perfil.values()) {
-			System.out.println(perfil);
 			if(cod.equals(perfil.getCodigo())) {
 				return perfil;
 			}
