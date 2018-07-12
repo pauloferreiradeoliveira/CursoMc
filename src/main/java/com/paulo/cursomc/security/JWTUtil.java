@@ -9,15 +9,27 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * Resposavel para o TOKEN
+ * @author Paulo Ferreira
+ *
+ */
 @Component
 public class JWTUtil {
 	
+	// Pegar palavras para CODIFIGAR
 	@Value("${jwt.secret}")
 	private String secret;
 	
+	// Tempo de Expiração
 	@Value ("${jwt.expiration}")
 	private Long expiration;
 	
+	/** Gera o Token
+	 * 
+	 * @param username - O Email
+	 * @return String - Retornar o TOKEN
+	 */
 	public String generateToken(String username) {
 		return Jwts.builder()
 				.setSubject(username)
@@ -26,6 +38,11 @@ public class JWTUtil {
 				.compact();
 	}
 	
+	/** Verificar se o token e valido
+	 * 
+	 * @param token
+	 * @return BOOLEN
+	 */
 	public boolean tokenValido(String token) {
 		Claims claims = getClaims(token);
 		if (claims != null) {
@@ -39,6 +56,7 @@ public class JWTUtil {
 		return false;
 	}
 	
+	// Pega o email atraveis do token
 	public String getUsername(String token) {
 		Claims claims = getClaims(token);
 		if (claims != null) {

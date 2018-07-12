@@ -27,6 +27,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		this.detailsService = detailsService;
 	}
 	
+	/**
+	 * Verficar se tem o TOKEN na requisição
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -40,6 +43,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
+	/**
+	 * Verifica se a existencia o USUARIO
+	 * @param token
+	 * @return UsernamePasswordAuthenticationToken
+	 */
 	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 		if(jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
