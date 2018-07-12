@@ -25,6 +25,12 @@ public class TestConfig {
 	}
 
 	@Bean
+	public boolean instatiateStorage() {
+		dBService.iniciarStorage();
+		return true;
+	}
+	
+	@Bean
 	public EmailService emailService() {
 		return new MockEmailService();
 	}

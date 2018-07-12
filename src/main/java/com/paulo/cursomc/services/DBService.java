@@ -55,6 +55,9 @@ public class DBService {
 	private ItemPedidoRepository itemPedidoRepository;
 	
 	@Autowired
+	private StorageService storageService;
+	
+	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
 	public void instantiateTestDatabase() throws ParseException {
@@ -167,5 +170,10 @@ public class DBService {
 		p3.getItemPedidos().add(ip2);
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+	}
+	
+	public void iniciarStorage() {
+		storageService.deleteAll();
+		storageService.init();
 	}
 }

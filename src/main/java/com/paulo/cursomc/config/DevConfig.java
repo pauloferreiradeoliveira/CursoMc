@@ -36,5 +36,12 @@ public class DevConfig {
 	public EmailService emailService() {
 		return new SmtpEmailService();
 	}
+	
+	@Bean
+	public boolean instatiateStorage() {
+		dBService.iniciarStorage();
+		return true;
+	}
+	
 
 }
