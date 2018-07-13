@@ -123,6 +123,16 @@ public class ClienteService {
 		}
 		
 		public URI uploadProfilePicture(MultipartFile multipartFile) {
-			return storageService.store(multipartFile);
+			UserSS user =  UserService.authenticated();
+			if(user == null) {
+				throw new AuthorizationException("Acesso negado");
+			}
+			URI uri = storageService.store(multipartFile);
+			Cliente cli = find(user.getId());
+			cli.setImagemURL(uri.toString());
+			repo.save(cli);
+			
+			
+			return uri;
 		}
 }

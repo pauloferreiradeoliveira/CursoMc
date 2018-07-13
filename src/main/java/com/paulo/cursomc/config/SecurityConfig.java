@@ -45,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// Acesso liberado para POST
 	private static final String[] PUBLIC_MARCHES_POST= {
-			"/clientes/picture",
 			"/auth/forgot/**",
 			"/clientes"
 	};
