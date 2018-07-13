@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.paulo.cursomc.services.exceptions.AuthorizationException;
 import com.paulo.cursomc.services.exceptions.DataIntegrityException;
+import com.paulo.cursomc.services.exceptions.FileException;
 import com.paulo.cursomc.services.exceptions.ObjectNotFoundException;
 
+/**
+ * Controle para tratamento de erros
+ * @version 0.5
+ * @author Paulo Ferreira
+ */
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
@@ -31,7 +37,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StandardError> MethodArgumentNotValid (MethodArgumentNotValidException e ,HttpServletRequest request){
+	public ResponseEntity<StandardError> methodArgumentNotValid (MethodArgumentNotValidException e ,HttpServletRequest request){
 		
 		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validação", System.currentTimeMillis());
 		
@@ -42,12 +48,16 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(AuthorizationException.class)
-	public ResponseEntity<StandardError> Authorization(ObjectNotFoundException e ,HttpServletRequest request){
+	public ResponseEntity<StandardError> authorization(AuthorizationException e ,HttpServletRequest request){
 		
 		StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	}
 	
-	
-
+	@ExceptionHandler(FileException.class)
+	public ResponseEntity<StandardError> file(FileException e ,HttpServletRequest request){
+		
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
 }

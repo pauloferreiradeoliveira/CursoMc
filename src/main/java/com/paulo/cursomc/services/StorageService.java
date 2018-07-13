@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.paulo.cursomc.services.exceptions.FileException;
+
 @Service
 public class StorageService {
 	
@@ -24,6 +26,8 @@ public class StorageService {
  
 	/**
 	 * Salvando Aquivo E retornado sua URL
+	 * @param MultipartFile - Arquivos para ser salvo
+	 * @return URI - Retornar a URL do arquivo salvo
 	 * */
 	public URI store(MultipartFile file) {
 		try {
@@ -32,19 +36,22 @@ public class StorageService {
 			String contentType = file.getContentType();
 			return store(is,fileName,contentType);
 		}catch (IOException e){
-			throw new RuntimeException("Erro de IO " + e.getMessage());
+			throw new FileException("Erro de IO " + e.getMessage());
 		}
 	}
 	
 	public URI store(InputStream is, String fileName, String contentType) {
-		try {
-			Files.copy(is, this.rootLocation.resolve(fileName));
-			return loadFile(fileName).getURI();
-		} catch (Exception e) {
-			throw new RuntimeException("Falha ao upload");
-		}
+		
+			try {
+				Files.copy(is, this.rootLocation.resolve(fileName));
+				return loadFile(fileName).getURI();
+			} catch (IOException e) {
+				throw new FileException("Erro de IO " + e.getMessage());
+			}
+	
 	}
- 
+	
+	
 	public Resource loadFile(String filename) {
 		try {
 			Path file = rootLocation.resolve(filename);
@@ -52,10 +59,10 @@ public class StorageService {
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				throw new RuntimeException("Erro! Arquivo não EXITE");
+				throw new FileException("Erro! Arquivo não existe");
 			}
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Erro! Não achou a URL ");
+			throw new FileException("Erro ao converter URL para URI ");
 		}
 	}
  
@@ -63,11 +70,14 @@ public class StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
  
+	/**
+	 * Iniciar o Diretorio
+	 */
 	public void init() {
 		try {
 			Files.createDirectory(rootLocation);
 		} catch (IOException e) {
-			throw new RuntimeException("Não Foi possivel criar diretorio");
+			throw new FileException("Não Foi possivel criar diretorio");
 		}
 	}
 
