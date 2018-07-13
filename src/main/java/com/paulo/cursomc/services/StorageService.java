@@ -42,7 +42,9 @@ public class StorageService {
 	
 	public URI store(InputStream is, String fileName, String contentType) {
 		
+			
 			try {
+				FileSystemUtils.deleteRecursively(this.rootLocation.resolve(fileName));
 				Files.copy(is, this.rootLocation.resolve(fileName));
 				return loadFile(fileName).getURI();
 			} catch (IOException e) {
