@@ -77,7 +77,9 @@ public class StorageService {
 	 */
 	public void init() {
 		try {
-			Files.createDirectory(rootLocation);
+			if (!Files.exists(rootLocation)) {
+				Files.createDirectory(rootLocation);
+			}
 		} catch (IOException e) {
 			throw new FileException("Não Foi possivel criar diretorio");
 		}

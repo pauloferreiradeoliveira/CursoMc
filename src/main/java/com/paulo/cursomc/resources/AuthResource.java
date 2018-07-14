@@ -26,6 +26,11 @@ public class AuthResource {
 	@Autowired
 	private AuthService authService;
 	
+	/**
+	 * Para renovar o o token
+	 * @param HttpServletResponse - Para poder pegar o TOKEN
+	 * @return ResponseEntity - Retorna o novo TOKEN
+	 */
 	@RequestMapping(value="/refresh_token",method=RequestMethod.POST)
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response){
 		UserSS user = UserService.authenticated();

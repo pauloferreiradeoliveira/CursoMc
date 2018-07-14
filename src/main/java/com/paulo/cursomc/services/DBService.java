@@ -173,7 +173,6 @@ public class DBService {
 	}
 	
 	public void iniciarStorage() {
-		storageService.deleteAll();
 		storageService.init();
 	}
 }

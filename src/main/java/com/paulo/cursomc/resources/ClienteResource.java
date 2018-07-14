@@ -67,7 +67,7 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	// Seleciona uma GET
+	// Lista de todos os Clientes
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
@@ -77,6 +77,19 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDto);
 
 	}
+	
+	/**
+	 * Pegar o Cliente por EMAIL
+	 * @param email
+	 * @return cliente
+	 */
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value="value") String email){
+		Cliente obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	
 	
 	// Paginação 
 	@RequestMapping(value="/page", method=RequestMethod.GET)
