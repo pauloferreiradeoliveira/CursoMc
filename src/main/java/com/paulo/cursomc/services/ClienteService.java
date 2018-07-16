@@ -30,6 +30,11 @@ import com.paulo.cursomc.services.exceptions.AuthorizationException;
 import com.paulo.cursomc.services.exceptions.DataIntegrityException;
 import com.paulo.cursomc.services.exceptions.ObjectNotFoundException;
 
+/**
+ * Controller do Cliente -- Reposavel pela area de negocios
+ * @author Paulo Ferreira
+ * @version 0.5
+ */
 @Service
 public class ClienteService {
 
@@ -54,7 +59,14 @@ public class ClienteService {
 	@Value("${img.profile.size}")
 	private Integer size;
 	
-		// Entra um Cliente
+	
+	// Encontar Cliente
+	
+		/**
+		 * Encontra um Cliente pelo ID
+		 * @param id
+		 * @return Cliente
+		 */
 		public Cliente find(Integer id) {
 			UserSS user =  UserService.authenticated();
 			if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
@@ -68,10 +80,37 @@ public class ClienteService {
 			));
 		}
 	
-		// Mostrar Clientes
+		/**
+		 * Encontra uma Lista de Cliente
+		 * @return LIST<Cliente> retorna uma lista de Cliente
+		 */
 		public List<Cliente> findAll(){
 			return repo.findAll();
 		}
+		
+		/**
+		 * Encontra um Cliente por Email
+		 * @param email - email do Cliente
+		 * @return Cliente
+		 */
+		public Cliente findByEmail(String email) {
+			UserSS user = UserService.authenticated();
+			if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+				throw new AuthorizationException("Acesso negado");
+			}
+			
+			Cliente obj = repo.findByEmail(email);
+			if(obj == null) {
+				throw new ObjectNotFoundException("Cliente não encontrado!");
+			}
+			return obj;
+		}
+		
+		public Page<Cliente> findPage(Integer page, Integer LinesPerPage,String orderBy, String direction){
+			PageRequest pageRequest = PageRequest.of(page, LinesPerPage,Direction.valueOf(direction), orderBy);
+			return repo.findAll(pageRequest);
+		}
+	// ----- FIM LISTA CLIENTE ----- //
 		
 		// Para Atulizar Cliente
 		public Cliente update(Cliente obj) {
@@ -90,12 +129,7 @@ public class ClienteService {
 				throw new DataIntegrityException("Este cliente tem pedidos");
 			}
 		}
-		
-		public Page<Cliente> findPage(Integer page, Integer LinesPerPage,String orderBy, String direction){
-			PageRequest pageRequest = PageRequest.of(page, LinesPerPage,Direction.valueOf(direction), orderBy);
-			return repo.findAll(pageRequest);
-		}
-		
+			
 		@Transactional
 		public Cliente insert(Cliente obj) {
 			obj.setId(null);
@@ -124,21 +158,7 @@ public class ClienteService {
 				cli.getTelefones().add(objDTO.getTelefone3());
 			}
 			
-			return cli;
-			
-		}
-		
-		public Cliente findByEmail(String email) {
-			UserSS user = UserService.authenticated();
-			if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
-				throw new AuthorizationException("Acesso negado");
-			}
-			
-			Cliente obj = repo.findByEmail(email);
-			if(obj == null) {
-				throw new ObjectNotFoundException("Cliente não encontrado!");
-			}
-			return obj;
+			return cli;	
 		}
 		
 		private void updateData(Cliente newObj, Cliente obj) {

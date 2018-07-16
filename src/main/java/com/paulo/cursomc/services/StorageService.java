@@ -18,17 +18,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.paulo.cursomc.services.exceptions.FileException;
 
+
+/**
+ * Servico para salvar Arquivos
+ * @author Paulo Ferreiro
+ *
+ */
 @Service
 public class StorageService {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	
+	// Local (PASTA) onde vai ser Salvo
 	private final Path rootLocation = Paths.get("arquivos");
  
 	/**
 	 * Salvando Aquivo E retornado sua URL
 	 * @param MultipartFile - Arquivos para ser salvo
 	 * @return URI - Retornar a URL do arquivo salvo
-	 * */
+	 */
 	public URI store(MultipartFile file) {
 		try {
 			String fileName = file.getOriginalFilename();
