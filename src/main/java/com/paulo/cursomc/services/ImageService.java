@@ -24,7 +24,6 @@ public class ImageService {
 		if(!"png".equals(ext) && !"jpg".equals(ext)) {
 			throw new FileException("Somente imagens PNG e JGP são permitidas");
 		}
-		
 		try {
 			BufferedImage img = ImageIO.read(uploadedFile.getInputStream());
 			if("png".equals(ext)) {

@@ -64,7 +64,7 @@ public class StorageService {
 	
 	public Resource loadFile(String filename) {
 		try {
-			Path file = rootLocation.resolve(filename);
+			Path file = rootLocation.resolve(filename).normalize();
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

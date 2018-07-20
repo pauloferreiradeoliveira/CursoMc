@@ -41,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHES_GET = {
 			"/produtos/**",
 			"/categorias/**",
-			"/estados/**"
+			"/estados/**",
+			"/arquivos/**"
 	};
 	
 	// Acesso liberado para POST
